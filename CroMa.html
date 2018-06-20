@@ -1,0 +1,26 @@
+<html>
+<head>
+<script>
+var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+
+function clickCounter() {
+	db.transaction(function (tx) { 
+	            tx.executeSql('CREATE TABLE IF NOT EXISTS COUNTER (log)'); 
+	            tx.executeSql('INSERT INTO COUNTER (log) VALUES (1)'); 
+	})
+	db.transaction(function (tx) { 
+		tx.executeSql('SELECT * FROM COUNTER', [], function (tx, results) { 
+		var len = results.rows.length, i; 
+		document.getElementById("result").innerHTML = "This button has been clicked " + len + " time(s) total.";
+		}, null); 
+	});
+
+}
+</script>
+</head>
+<body>
+	<h1>BUTTON COUNTER</h1>
+	<p><button onclick="clickCounter()" type="button">Click here!</button></p>
+	<div id="result"></div>
+</body>
+</html>
